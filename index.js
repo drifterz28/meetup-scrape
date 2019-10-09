@@ -1,12 +1,13 @@
 const puppeteer = require('puppeteer');
 const querystring = require('querystring');
+const http = require('http');
 
-(async () => {
+async function scrapePage(res) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   const params = {
     keywords: '',
-    radius: 50,
+    radius: 30,
     userFreeform: 'Bend%2C+OR',
     mcId: 'z97701',
     mcName: 'Bend%2C+OR',
@@ -18,7 +19,7 @@ const querystring = require('querystring');
   await page.goto(`https://www.meetup.com/find/events/?${querystring.stringify(params)}`);
 
   // Get the "viewport" of the page, as reported by the page.
-  const dimensions = await page.evaluate(() => {
+  const listings = await page.evaluate(() => {
     const results = [...document.querySelectorAll('.event-listing')];
       return results.map(listing => {
         const datetime = listing.querySelector('time');
@@ -34,11 +35,22 @@ const querystring = require('querystring');
         };
       });
   });
-
-  console.log('listings:', dimensions);
-
   await browser.close();
-})();
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+  console.log('listings:', listings);
+  res.end(JSON.stringify(listings));
+};
 
 
-//?allMeetups=true&radius=50&userFreeform=Bend%2C+OR&mcId=z97701&mcName=Bend%2C+OR&month=10&day=7&year=2019
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  scrapePage(res);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});

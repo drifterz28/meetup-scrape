@@ -1,5 +1,11 @@
 # meetup-scrape
 
+to start run
+```
+yarn && yarn start
+```
+you should have a running server on localhost:3000 and at this time it will output events.
+
 basic output at the moment
 
 ```
@@ -265,3 +271,9 @@ basic output at the moment
   }
 ]
 ```
+
+### TODO's
+
+- add json endpoint links to groups up comming events
+  - list group name
+  - list group events

@@ -5,7 +5,11 @@
   "repository": "git@github.com:drifterz28/meetup-scrap.git",
   "author": "Chris Whitney <drifterz28@users.noreply.github.com>",
   "license": "GNU",
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
   "dependencies": {
+    "nodemon": "^1.19.3",
     "puppeteer": "^1.20.0"
   }
 }
