@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
 const querystring = require('querystring');
-const http = require('http');
+const express = require('express');
+const app = express();
+const port = 3000;
 
 async function scrapePage(res) {
   const browser = await puppeteer.launch();
@@ -42,15 +44,18 @@ async function scrapePage(res) {
   res.end(JSON.stringify(listings));
 };
 
+app.use(express.static('public'));
 
-
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-  scrapePage(res);
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+// const server = http.createServer((req, res) => {
+//   console.log(req.url)
+//   res.statusCode = 200;
+//   res.setHeader('Content-Type', 'application/json');
+//   res.end('test');
+//   // scrapePage(res);
+// });
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
