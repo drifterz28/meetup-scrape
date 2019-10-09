@@ -277,3 +277,4 @@ basic output at the moment
 - add json endpoint links to groups up comming events
   - list group name
   - list group events
+- cache results for faster load times
