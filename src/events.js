@@ -31,7 +31,7 @@ module.exports = async function scrapePage(req, res) {
           eventLink: eventInfo.href,
           groupName: groupInfo.textContent.replace(/[\n\r]+|[\s]{2,}/g, ''),
           groupLink,
-          self: groupLink.split('/').slice(-2, -1)[0],
+          next: groupLink.split('/').slice(-2, -1)[0],
           date: datetime.getAttribute('datetime'),
         };
       });
