@@ -53,3 +53,9 @@ header {
   padding: 20px;
   background: rgb(19, 16, 16);
 }
+
+#json-data,
+#display-data {
+	width: 48%;
+	float: left;
+}
