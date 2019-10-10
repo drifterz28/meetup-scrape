@@ -17,28 +17,25 @@ module.exports = async function scrapePage(req, res) {
     year: currentDate.getFullYear()
   };
   params.allMeetups = !Boolean(params.keywords);
-
+  //?allMeetups=true&radius=50&userFreeform=Bend%2C+OR&mcId=z97701&mcName=Bend%2C+OR&sort=distance
   await page.goto(`https://www.meetup.com/find/?${querystring.stringify(params)}`);
 
-  const listings = await page.evaluate(() => {
-    const results = [...document.querySelectorAll('.event-listing')];
-      return results.map(listing => {
-        const datetime = listing.querySelector('time');
-        const groupInfo = listing.querySelector('.text--labelSecondary a');
-        const eventInfo = listing.querySelector('.event');
-        const groupLink = groupInfo.href;
-        return {
-          eventTitle: eventInfo.textContent.replace(/[\n\r]+|[\s]{2,}/g, ''),
-          eventLink: eventInfo.href,
-          groupName: groupInfo.textContent.replace(/[\n\r]+|[\s]{2,}/g, ''),
-          groupLink,
-          self: groupLink.split('/').slice(-2, -1)[0],
-          date: datetime.getAttribute('datetime'),
-        };
-      });
+  const groups = await page.$$eval('.j-groupCard-list .groupCard', groups => {
+    return groups.map(group => {
+      const groupImage = group.querySelector('.groupCard--photo').style.backgroundImage;
+      const groupInfo = group.querySelector('a:first-child');
+      const groupLink = groupInfo.href;
+      return {
+        groupImage: groupImage.split('"').slice(-2, -1)[0],
+        groupName: groupInfo.textContent.replace(/[\n\r]+|[\s]{2,}/g, ''),
+        groupLink,
+        next: groupLink.split('/').slice(-2, -1)[0],
+      }
+    });
   });
+
   await browser.close();
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(listings));
+  res.send(JSON.stringify(groups));
 };

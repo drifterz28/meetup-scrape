@@ -1,19 +1,15 @@
 const puppeteer = require('puppeteer');
-
-const getText = async (page, selector) => await page.$eval(selector, el => el.innerText);
-const getHtml = async (page, selector) => await page.$eval(selector, el => el.innerHTML);
+const { getText, getHtml } = require('./helpers');
 
 const getEvents = async (page, selector) => await page.$$eval('.groupHome-eventsList-upcomingEvents .eventCard', events => {
-    return events.map(event => {
-      return {
-        eventName: event.querySelector('.eventCardHead--title').innerText,
-        eventLink: event.querySelector('.eventCardHead--title').href,
-        time: event.querySelector('time').getAttribute('datetime'),
-        location: event.querySelector('.venueDisplay').innerText,
-        attending: event.querySelector('.avatarRow--attendingCount').innerText,
-        info: event.querySelector('.text--small.padding--top.margin--halfBottom:last-child').innerHTML
-      }
-    });
+  return events.map(event => ({
+    eventName: event.querySelector('.eventCardHead--title').innerText,
+    eventLink: event.querySelector('.eventCardHead--title').href,
+    time: event.querySelector('time').getAttribute('datetime'),
+    location: event.querySelector('.venueDisplay').innerText,
+    attending: event.querySelector('.avatarRow--attendingCount').innerText,
+    info: event.querySelector('.text--small.padding--top.margin--halfBottom:last-child').innerHTML
+    }));
   });
 
 module.exports = async function scrapePage(req, res) {
