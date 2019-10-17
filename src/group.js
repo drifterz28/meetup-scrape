@@ -19,9 +19,6 @@ module.exports = async function scrapePage(req, res) {
 
   await page.goto(`https://www.meetup.com/${group}/`);
 
-  //   const upcomingEvents = [...document.querySelectorAll('.groupHome-eventsList-upcomingEvents .eventCard')];
-  //   const pastEvents = [...document.querySelectorAll('.groupHome-eventsList-pastEvents .eventCard')];
-
   const upcomingEvents = await getEvents(page, '.groupHome-eventsList-upcomingEvents .eventCard');
   const pastEvents = await getEvents(page, '.groupHome-eventsList-pastEvents .eventCard');
   const groupName = await getText(page, '.groupHomeHeader-groupNameLink');

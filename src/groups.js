@@ -8,7 +8,7 @@ module.exports = async function scrapePage(req, res) {
   const params = {
     keywords: '',
     radius: 30,
-    sort: 'distance',
+    sort: 'distance', // default, founded_date, member_count, distance
     userFreeform: 'Bend%2C+OR',
     mcId: 'z97701',
     mcName: 'Bend%2C+OR',

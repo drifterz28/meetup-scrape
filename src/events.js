@@ -9,7 +9,6 @@ module.exports = async function scrapePage(req, res) {
   const params = {
     keywords: '',
     radius: 30,
-    sort: 'distance',
     userFreeform: 'Bend%2C+OR',
     mcId: 'z97701',
     mcName: 'Bend%2C+OR',
