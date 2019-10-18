@@ -6,7 +6,8 @@
   "author": "Chris Whitney <drifterz28@users.noreply.github.com>",
   "license": "GNU",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "dev": "nodemon ./index.js",
+    "start": "node ./index.js"
   },
   "dependencies": {
     "express": "^4.17.1",

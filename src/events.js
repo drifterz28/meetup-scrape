@@ -3,7 +3,7 @@ const querystring = require('querystring');
 const { getText, getHtml } = require('./helpers');
 
 module.exports = async function scrapePage(req, res) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   const page = await browser.newPage();
   const currentDate = new Date();
   const params = {

@@ -13,7 +13,7 @@ const getEvents = async (page, selector) => await page.$$eval('.groupHome-events
   });
 
 module.exports = async function scrapePage(req, res) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   const page = await browser.newPage();
   const group = req.params.group;
 
